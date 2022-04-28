@@ -64,7 +64,7 @@ public class MinimaxPlayer implements Player {
     		int bestScore = 1000;
     				for(cols = 0 ; cols < 7; cols++) {
     					board.move(cols,  opponent_id);
-    					bestScore = Math.max(bestScore, minimax(board, depth -1, false, arb));
+    					bestScore = Math.min(bestScore, minimax(board, depth -1, false, arb));
     					board.unmove(cols, opponent_id);
     				}
     				return bestScore;
