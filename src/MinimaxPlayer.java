@@ -6,7 +6,7 @@ public class MinimaxPlayer implements Player {
     
     @Override
     public String name() {
-        return "Minnie";
+        return "AlphaBeta";
     }
 
     @Override
@@ -44,7 +44,6 @@ public class MinimaxPlayer implements Player {
         		board.unmove(cols,  opponent_id);
         		}
         	}
-        
             arb.setMove(move);
             maxDepth++;
         }        
