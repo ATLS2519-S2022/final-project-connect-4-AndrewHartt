@@ -26,6 +26,8 @@ public class alphabeta implements Player {
         
         int move = 0; 
         int maxDepth = 1;
+        int alpha = 0;
+        int beta = 0;
         
         // while there's time left and maxDepth <= number of moves remaining
         while(!arb.isTimeUp() && maxDepth <= board.numEmptyCells()) {
@@ -35,7 +37,7 @@ public class alphabeta implements Player {
         	for (cols = 0; cols < 7; cols++) {
         		if(board.isValidMove(cols)) {
         			board.move(cols,  opponent_id);
-        			int score = alphaBeta(board, maxDepth - 1, false, arb);
+        			int score = alphaBeta(board, maxDepth - 1, alpha, beta, false, arb);
         			if(score > bestScore) {
         				bestScore = score;
         				move = cols;	
@@ -50,30 +52,32 @@ public class alphabeta implements Player {
 
     }
     
-    public int alphaBeta(board do, maxDepth, alpha, beta, maximizingPlayer) {
-    	if(depth == 0 || node == terminalNode) {
-    		return node;
+    public int alphaBeta(Connect4Board board, int depth, int alpha, int beta, boolean maximizingPlayer, Arbitrator arb) {
+    	if(depth == 0 || board.numEmptyCells() == 0 || arb.isTimeUp()) {
+    		return score(board);
     	}
-    	if(maximixingPlayer == true) {
-    		value = -1000;
+    	
+    	if(maximizingPlayer == true) {
+    		int value = -1000;
+    		for(cols =0; cols > 7; cols++) {
+    			value = Math.max(value, alphaBeta(board, depth-1, alpha, beta, false, arb));
+    			alpha = Math.max(alpha, value);
+    			if(alpha >= beta) {
+    				break;
+    			}
     	}
-    	for(node do == true) {
-			value = Math.max(value, alphabeta(do, depth-1, alpha, beta, false));
-			alpha = Math.max(alpha, value);
-			if(alpha >= beta) {
-				break;
-				return value;
-			} else {
-				value = +1000;
-				for(node do == true) {
-					value = Math.max(value, alphabet(do, depth-1, alpha, beta, true));
-					beta = Math.min(beta, value);
-					if(alpha >= beta) {
-						break;
-						return value;
-					}
+    		return value;
+    		
+    	}else {
+			int value = +1000;
+			for(cols =0; cols > 7; cols++) {
+				value = Math.max(value, alphaBeta(board, depth-1, alpha, beta, true, arb));
+				beta = Math.min(beta, value);
+				if(alpha >= beta) {
+					break;
 				}
 			}
+			return value;
 		}
     }
 
